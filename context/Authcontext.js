@@ -1,25 +1,37 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import {onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth"
+import {auth, db} from "../FirebaseConfig";
+import { addDoc, doc, getDoc, setDoc} from "firebase/firestore";
 
 export const AuthContext = createContext();
 
 export const ContextProvider = ({children}) => {
 
     const [User, setUser] = useState(null);
-    const [Authenticated, setAuthenticated] = useState(undefined);
+    const [Authenticated, setAuthenticated] = useState(true);
 
     useEffect(() => {
         //onAuthStateChanges
-        setTimeout(() => {
-            setAuthenticated(true)
+        const unSubs = onAuthStateChanged(auth, (User) => {
+            if(User){
+                setAuthenticated(true);
+                setUser(User)
+            }else{
+                setAuthenticated(false);
+                setUser(null);
+            }
+        })
 
-        }, 3000)
-
+        return unSubs;
     },[])
 
     const Onlogin = async(email, password,) => {
         try{
+            const result = await signInWithEmailAndPassword(auth, email, password);
+            return {success: true}
 
         }catch(error){
+            return {success: false, msg: error.message}
 
         }
     }
@@ -27,16 +39,29 @@ export const ContextProvider = ({children}) => {
 
     const OnLogout = async() => {
         try{
+            await signOut(auth);
+            return {success: true}
 
         }catch(err){
+            return {success: false, msg: err.message, error: e}
 
         }
     }
 
-    const OnRegister = async(username, email, password, profileUrl) => {
+    const OnRegister = async( email, password,username, profileUrl) => {
         try{
+            const result = await createUserWithEmailAndPassword(auth, email, password);
+            console.log("response of a User", result);
+            await setDoc(doc(db, "users", result?.user?.uid), {
+                username,
+                profileUrl,
+                userId: result?.user?.uid
+            })
+
+            return {success: true, data: result?.user}
 
         }catch(error){
+            return {success: false, msg: error.message}
 
         }
 
