@@ -15,7 +15,8 @@ export const ContextProvider = ({children}) => {
         const unSubs = onAuthStateChanged(auth, (User) => {
             if(User){
                 setAuthenticated(true);
-                setUser(User)
+                setUser(User);
+                GetUserData(User.uid)
             }else{
                 setAuthenticated(false);
                 setUser(null);
@@ -23,7 +24,20 @@ export const ContextProvider = ({children}) => {
         })
 
         return unSubs;
-    },[])
+    },[]);
+
+    const GetUserData = async(Uid) => {
+        
+            const Docs = doc(db, "users", Uid);
+            const InitialUser = await getDoc(Docs);
+
+            if(InitialUser.exists()){
+                let res = InitialUser.data();
+                console.log("USE EFFECT", res);
+                setUser({...User, username: res.username, profileUrl: res.profileUrl, userId: res.userId})
+            }
+
+    }
 
     const Onlogin = async(email, password,) => {
         try{
@@ -31,7 +45,7 @@ export const ContextProvider = ({children}) => {
             return {success: true}
 
         }catch(error){
-            return {success: false, msg: error.message}
+            return {success: false, msg: "Wrong Credentails"}
 
         }
     }
@@ -51,7 +65,6 @@ export const ContextProvider = ({children}) => {
     const OnRegister = async( email, password,username, profileUrl) => {
         try{
             const result = await createUserWithEmailAndPassword(auth, email, password);
-            console.log("response of a User", result);
             await setDoc(doc(db, "users", result?.user?.uid), {
                 username,
                 profileUrl,
@@ -61,7 +74,7 @@ export const ContextProvider = ({children}) => {
             return {success: true, data: result?.user}
 
         }catch(error){
-            return {success: false, msg: error.message}
+            return {success: false, msg: "Invalid Credentails"}
 
         }
 

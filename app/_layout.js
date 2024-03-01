@@ -2,6 +2,7 @@ import {View, Text} from "react-native"
 import { Slot, useRouter, useSegments } from "expo-router"
 import { useAuth, ContextProvider } from "../context/Authcontext";
 import { useEffect } from "react";
+import { MenuProvider } from "react-native-popup-menu";
 
 
 const MainLayout = () => {
@@ -29,10 +30,12 @@ const MainLayout = () => {
 export default function RootLayout() {
   
   return (
-   <ContextProvider>
-    <MainLayout/>
-   </ContextProvider>
-  )
+    <MenuProvider>
+      <ContextProvider>
+        <MainLayout />
+      </ContextProvider>
+    </MenuProvider>
+  );
 }
 
 
