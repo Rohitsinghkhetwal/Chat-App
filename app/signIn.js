@@ -34,7 +34,6 @@ const SignIn = () => {
     setLoading(true);
     const response = await Onlogin(EmailRef.current, passwordRef.current);
     setLoading(false);
-    console.log("sign In completed", response);
 
     if(!response.success){
       Alert.alert("Sign In", "Wrong Credential")

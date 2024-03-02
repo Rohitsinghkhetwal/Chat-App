@@ -1,6 +1,6 @@
 import { View, Text, Platform } from 'react-native'
 import React from 'react'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -20,7 +20,6 @@ import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
 export default function Homeheader() {
   const { User, OnLogout } = useAuth();
-  console.log("this is inside Home header", User);
 
   const handleProfile = () => {
     console.log("This is a handle profile");

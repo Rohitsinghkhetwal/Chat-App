@@ -33,7 +33,6 @@ export const ContextProvider = ({children}) => {
 
             if(InitialUser.exists()){
                 let res = InitialUser.data();
-                console.log("USE EFFECT", res);
                 setUser({...User, username: res.username, profileUrl: res.profileUrl, userId: res.userId})
             }
 

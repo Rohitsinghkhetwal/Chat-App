@@ -15,6 +15,7 @@ const ChatList = ({user}) => {
         keyExtractor={item => Math.random()}
         showsVerticalScrollIndicator={true}
         renderItem={({item, index}) => <Chatitems item={item}
+        noBorder={index+1 == user.length}
         router={router}
         index={index}
         />}

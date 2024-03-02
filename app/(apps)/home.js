@@ -14,27 +14,26 @@ import { userRef } from "../../FirebaseConfig";
 const Home = () => {
   const {GetUserData, User } = useAuth();
   const [user, setUser] = useState([]);
- 
-  
-  useEffect(() => {
-    if(User?.userId)
-    GET_ALL_USERS();
-
-  },[])
 
 
-  const GET_ALL_USERS = async() => {
-    const q = query(userRef, where("userId" , "!=", User?.userId));
+  const GET_ALL_USERS = async () => {
+    const q = query(userRef, where("userId", "!=", User?.userId));
     // this above it will not fetch the current Logged in user
     const result = await getDocs(q);
     let data = [];
-    result.forEach(item => {
-      data.push({...item.data()})
-    })
+    result.forEach((item) => {
+      data.push({ ...item.data() });
+    });
     setUser(data);
-  }
-
+  };
+ 
   
+  useEffect(() => {
+    if(User?.userId){
+      GET_ALL_USERS();
+    }
+  },[])
+
 
   return (
     <View className="flex-1">

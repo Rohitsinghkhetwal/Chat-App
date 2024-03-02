@@ -37,7 +37,7 @@ const SignUp = () => {
     setLoading(true);
     let response = await OnRegister(EmailRef.current, passwordRef.current, usernameRef.current, profileRef.current);
     setLoading(false);
-    console.log("got result here !", response);
+   
 
     if(!response.success){
       Alert.alert("Sign Up", response.msg)
