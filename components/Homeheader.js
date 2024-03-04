@@ -16,12 +16,17 @@ import {
 } from "react-native-popup-menu";
 import {Menuitem} from "../components/CustumMenuItems"
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { useRouter } from 'expo-router';
 
 
 export default function Homeheader() {
   const { User, OnLogout } = useAuth();
+  const router = useRouter();
+  console.log("routing", router);
 
   const handleProfile = () => {
+    router.push({pathname: "/Profile"})
+
     console.log("This is a handle profile");
   }
 

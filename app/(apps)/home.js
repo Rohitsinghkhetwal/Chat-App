@@ -40,7 +40,7 @@ const Home = () => {
       <StatusBar style="light" />
 
       {user.length > 0 ? (
-        <ChatList user={user} />
+        <ChatList user={user} currentUser={User} />
       ) : (
         <View className="flex items-center" style={{top: hp(35), left: wp(40)}}>
           <Loading size={hp(10)}/>

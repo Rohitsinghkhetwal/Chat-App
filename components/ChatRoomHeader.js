@@ -11,7 +11,7 @@ import {
 
 
 const ChatRoomHeader = ({ user, router }) => {
-  console.log("items and router are here", user);
+  
   return (
     <Stack.Screen
       options={{
